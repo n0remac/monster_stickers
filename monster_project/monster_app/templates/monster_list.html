@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+{% for monster in monsters %}
+  <div>
+    <h2>{{ monster.element_type }}</h2>
+    <h3>{{ monster.creature }}</h3>
+    <p>{{ monster.description }}</p>
+    <img src="{{ monster.image_url }}" alt="{{ monster.creature }}">
+  </div>
+{% endfor %}
+{% endblock %}

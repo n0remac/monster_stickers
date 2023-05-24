@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h2>Select a Monster to Attack</h2>
+    <p>You are attacking {{ defender.creature }} of type {{ defender.element_type }}</p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <select name="monster">
+            {% for monster in user_monsters %}
+                {% if monster.health > 0 %}
+                    <option value="{{ monster.id }}">{{ monster.creature }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <button type="submit">Attack!</button>
+    </form>
+{% endblock content %}

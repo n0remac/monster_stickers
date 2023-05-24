@@ -1,0 +1,13 @@
+monster_db.json
+__pycache__/
+**/__pycache__/
+**/db.sqlite3
+sheets/
+sheets/*
+**/static/
+**/monsterqrcodes
+images/
+generatedimage/
+.DS_Store
+.env
+venv/

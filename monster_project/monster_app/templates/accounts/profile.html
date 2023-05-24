@@ -1,0 +1,20 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h2>Profile</h2>
+  <ul>
+    <li>Username: {{ user.username }}</li>
+  </ul>
+  <h3>My Monsters</h3>
+  {% if monster_list %}
+    <ul>
+      {% for monster in monster_list %}
+        <li>
+          <a href="/{{ monster.element_type }}/{{ monster.creature }}/{{ monster.id }}">{{ monster.creature }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You don't own any monsters yet!</p>
+  {% endif %}
+{% endblock %}

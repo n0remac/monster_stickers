@@ -1,0 +1,58 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<div class="container">
+    <div class="content text-center card">
+        <div class="text-center">
+            <h2>{{ monster.element_type }} - {{ monster.creature }}</h2>
+        </div>
+        <img class="monster-image mx-auto d-block" src="{{ monster.image_url }}" alt="{{ monster.creature }}">
+        <p><strong>Type:</strong> {{ monster.element_type }}</p>
+        <p><strong>Name:</strong> {{ monster.creature }}</p>
+        <p><strong>Description:</strong> {{ monster.description }}</p>
+        <p><strong>Attack:</strong> {{ monster.attack }}</p>
+        <p><strong>Health:</strong> {{ monster.health }}</p>
+        <p><strong>XP:</strong> {{ monster.xp }}</p>
+        <p><strong>Conscious:</strong> {{ monster.conscious }}</p>
+
+
+        <div class="d-flex justify-content-between">
+            {% if not monster.owner %}
+                <a href="/{{ monster.element_type }}/{{ monster.creature }}/claim/{{ monster.id }}" class="btn btn-primary">Claim</a>
+            {% endif %}
+            {% if monster.health > 0 %}
+                <a href="{% url 'attack_view' defender_id=monster.id %}" class="btn btn-primary">Attack</a>
+            {% endif %}
+            {% if monster.owner %}
+                <a href="{% url 'spend_xp_view' monster_id=monster.id %}" class="btn btn-primary">Spend XP</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(to right, #f9f9f9, #e0e0e0);
+        min-height: 100vh;
+    }
+    
+    .content {
+        text-align: center;
+    }
+    .card {
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 10px 30px rgba(0,0,0,0.15);
+    }
+    
+    .monster-image {
+        /* transform: perspective(500px) rotateX(-10deg); */
+        max-width: 80%;
+        box-shadow: 0px 10px 30px rgba(0,0,0,0.15);
+    }
+</style>
+{% endblock %}

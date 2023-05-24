@@ -1,0 +1,22 @@
+<!-- base_generic.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}My Site{% endblock %}</title>
+</head>
+<body>
+    {% block navbar %}
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/accounts/profile/">Profile</a> |
+        {% if user.is_authenticated %}
+            <a href="/accounts/logout/">Logout</a>
+        {% else %}
+            <a href="/accounts/login/">Login</a> |
+            <a href="/accounts/register/">Register</a>
+        {% endif %}
+    </nav>
+    {% endblock navbar %}
+    {% block content %}{% endblock %}
+</body>
+</html>

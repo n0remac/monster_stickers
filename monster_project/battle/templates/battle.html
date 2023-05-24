@@ -1,0 +1,37 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Battle</h2>
+    
+    <div class="row">
+        <div class="col">
+            <h3>Your Monsters</h3>
+            <div>
+                <strong>{{ attacker.creature }}</strong> 
+                (Attack: {{ attacker.attack }}, Health: {{ attacker.health }})
+            </div>
+        </div>
+
+        <div class="col">
+            <h3>Defending Monster</h3>
+            <div>
+                <strong>{{ defender.creature }}</strong> 
+                (Attack: {{ defender.attack }}, Health: {{ defender.health }})
+            </div>
+        </div>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" name="action" value="Attack" class="btn btn-primary" />
+        <input type="submit" name="action" value="Run" class="btn btn-primary" />
+    </form>
+
+    {% if result %}
+        <div class="alert alert-info mt-3">
+            {{ result }}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

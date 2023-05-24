@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h2>Spend XP - {{ monster.creature }}</h2>
+    <p>Current XP: {{ monster.xp }}</p>
+    <p>Current Health: {{ monster.current_health }}</p>
+    <p>Current Max Health: {{ monster.max_health }}</p>
+    <p>Current Attack: {{ monster.attack }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label for="spend_option">Spend XP on:</label>
+        <select id="spend_option" name="spend_option">
+            <option value="health">Health</option>
+            <option value="attack">Attack</option>
+            <option value="max_health">Max Health</option>
+        </select>
+        <button type="submit">Spend XP</button>
+    </form>
+{% endblock content %}
