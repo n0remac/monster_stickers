@@ -1,18 +1,61 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h2>Select a Monster to Attack</h2>
-    <p>You are attacking {{ defender.creature }} of type {{ defender.element_type }}</p>
+    <div class="content">
+        <h2>Select a Monster to Attack</h2>
+        <p>You are attacking {{ defender.creature }} of type {{ defender.element_type }}</p>
+    </div>
+    <div class="monster-cards">
+        {% for monster in user_monsters %}
+            {% if monster.health > 0 and monster.id != defender.id %}
+                <div class="card">
+                    <img class="monster-image" src="{{ monster.image_url }}" alt="{{ monster.creature }}">
+                    <h3>{{ monster.creature }}</h3>
+                    <p><strong>Type:</strong> {{ monster.element_type }}</p>
+                    <p><strong>Attack:</strong> {{ monster.attack }}</p>
+                    <p><strong>Health:</strong> {{ monster.health }}</p>
+                    <p><strong>XP:</strong> {{ monster.xp }}</p>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="monster" value="{{ monster.id }}">
+                        <button type="submit" class="btn btn-primary">Select</button>
+                    </form>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <style>
+.monster-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.card {
+    margin: 20px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.15);
+}
+
+.monster-image {
+    width: 100%;
+    height: auto;
+}
+.container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(to right, #f9f9f9, #e0e0e0);
+        min-height: 100vh;
+    }
     
-    <form method="POST">
-        {% csrf_token %}
-        <select name="monster">
-            {% for monster in user_monsters %}
-                {% if monster.health > 0 %}
-                    <option value="{{ monster.id }}">{{ monster.creature }}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
-        <button type="submit">Attack!</button>
-    </form>
+    .content {
+        text-align: center;
+    }
+
+    </style>
 {% endblock content %}

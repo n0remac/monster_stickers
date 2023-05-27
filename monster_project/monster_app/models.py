@@ -14,7 +14,7 @@ class GameEntity(models.Model):
     last_battle = models.DateTimeField(null=True, blank=True)
 
     def current_health(self):
-        if self.health == 0:  # The monster was unconscious
+        if not self.conscious:  # The monster was unconscious
             time_passed = datetime.now(timezone.utc) - self.last_battle
             recovery = (time_passed.total_seconds() / (24 * 60 * 60)) * self.max_health  # recovered health over time
             print(f"Recovery: {recovery}")

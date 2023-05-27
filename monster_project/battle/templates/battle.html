@@ -1,32 +1,35 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<div class="container">
-    <h2>Battle</h2>
-    
-    <div class="row">
-        <div class="col">
-            <h3>Your Monsters</h3>
-            <div>
-                <strong>{{ attacker.creature }}</strong> 
-                (Attack: {{ attacker.attack }}, Health: {{ attacker.health }})
+    <div class="monster-cards">
+        <div class="card">
+            <h3>{{ attacker.creature }}</h3>
+            <img class="monster-image" src="{{ attacker.image_url }}" alt="{{ attacker.creature }}">
+            <div class="center">
+                <p><strong>Attack:</strong> {{ attacker.attack }}</p>
+                <p><strong>Health:</strong> {{ attacker.health }}</p>
+                <p><strong>XP:</strong> {{ attacker.xp }}</p>
             </div>
+            <form method="post">
+                {% csrf_token %}
+                <input type="submit" name="action" value="Attack" class="btn btn-primary" />
+                <input type="submit" name="action" value="Run" class="btn btn-primary" />
+            </form>
         </div>
-
-        <div class="col">
-            <h3>Defending Monster</h3>
-            <div>
-                <strong>{{ defender.creature }}</strong> 
-                (Attack: {{ defender.attack }}, Health: {{ defender.health }})
+        <div class="center">
+            <h2>VS</h2>
+        </div>
+        <div class="card">
+            <h3>{{ defender.creature }}</h3>
+            <img class="monster-image" src="{{ defender.image_url }}" alt="{{ defender.creature }}">
+            <div class="center">
+                <p><strong>Attack:</strong> {{ defender.attack }}</p>
+                <p><strong>Health:</strong> {{ defender.health }}</p>
+                <p><strong>XP:</strong> {{ defender.xp }}</p>
             </div>
         </div>
     </div>
-
-    <form method="post">
-        {% csrf_token %}
-        <input type="submit" name="action" value="Attack" class="btn btn-primary" />
-        <input type="submit" name="action" value="Run" class="btn btn-primary" />
-    </form>
+    
 
     {% if result %}
         <div class="alert alert-info mt-3">
@@ -34,4 +37,45 @@
         </div>
     {% endif %}
 </div>
-{% endblock %}
+<style>
+.monster-cards {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.card {
+    /* margin: 20px; */
+    width: 33%;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.15);
+}
+
+.monster-image {
+    width: 100%;
+    height: auto;
+}
+.center {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(to right, #f9f9f9, #e0e0e0);
+        /* min-height: 100vh; */
+    }
+    
+    .content {
+        text-align: center;
+    }
+
+    </style>
+{% endblock content %}
+

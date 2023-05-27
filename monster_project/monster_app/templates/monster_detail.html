@@ -25,6 +25,9 @@
             {% if monster.owner %}
                 <a href="{% url 'spend_xp_view' monster_id=monster.id %}" class="btn btn-primary">Spend XP</a>
             {% endif %}
+            {% if monster.owner %}
+                <a href="/{{ monster.element_type }}/{{ monster.creature }}/story/{{ monster.id }}" class="btn btn-primary">Go on an Adventure</a>
+            {% endif %}
         </div>
     </div>
 </div>

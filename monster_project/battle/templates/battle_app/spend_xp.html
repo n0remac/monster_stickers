@@ -3,18 +3,25 @@
 {% block content %}
     <h2>Spend XP - {{ monster.creature }}</h2>
     <p>Current XP: {{ monster.xp }}</p>
-    <p>Current Health: {{ monster.current_health }}</p>
-    <p>Current Max Health: {{ monster.max_health }}</p>
-    <p>Current Attack: {{ monster.attack }}</p>
+    
+    
+    
 
     <form method="POST">
         {% csrf_token %}
-        <label for="spend_option">Spend XP on:</label>
-        <select id="spend_option" name="spend_option">
-            <option value="health">Health</option>
-            <option value="attack">Attack</option>
-            <option value="max_health">Max Health</option>
-        </select>
+        <p>Current Health: {{ monster.current_health }}</p>
+        <input type="number" id="spend_health" name="spend_health" min="0" value="0">
+
+        <p>Current Attack: {{ monster.attack }}</p>
+        <input type="number" id="spend_attack" name="spend_attack" min="0" value="0">
+
+        <p>Current Max Health: {{ monster.max_health }}</p>
+        <input type="number" id="spend_max_health" name="spend_max_health" min="0" value="0">
+
         <button type="submit">Spend XP</button>
     </form>
+
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+    {% endif %}
 {% endblock content %}

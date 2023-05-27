@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'monster_app',
     'users',
     'battle',
+    'explore',
 ]
 
 MIDDLEWARE = [

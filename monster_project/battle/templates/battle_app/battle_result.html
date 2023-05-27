@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<div class="container">
+    <div class="content text-center card">
+        <h2>Battle Result</h2>
+        <p>The battle between {{ battle.attacker.creature }} and {{ battle.defender.creature }} has concluded.</p>
+        <p>The winner is: {{ winner.creature }}</p>
+        <p>{{ winner.creature }} has gained {{ winner_xp_gain }} experience points.</p>
+        <p>{{ loser.creature }} has lost {{ loser_xp_gain }} experience points.</p>
+        <a href="/{{ winner.element_type }}/{{ winner.creature }}/{{ winner.id }}"class="btn btn-primary">View Winner</a>
+        <a href="/{{ loser.element_type }}/{{ loser.creature }}/{{ loser.id }}" class="btn btn-primary">View Loser</a>
+    </div>
+</div>
+{% endblock %}

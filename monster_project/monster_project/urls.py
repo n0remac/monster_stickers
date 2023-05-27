@@ -6,4 +6,5 @@ urlpatterns = [
     path('', include('monster_app.urls')),
     path('', include('users.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('', include('explore.urls')),
 ]

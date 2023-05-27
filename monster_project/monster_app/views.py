@@ -4,6 +4,9 @@ from .models import Monster
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import MonsterSerializer
+from explore.models import Story
+import openai
+
 
 @api_view(['POST'])
 def create_monster(request):
@@ -35,3 +38,26 @@ def claim_monster(request, element_type, creature, monster_id):
 
     # Redirect the user to some page, such as the monster detail page
     return redirect('monster_detail', element_type=element_type, creature=creature, id=monster_id)
+
+@login_required
+def generate_story(request, element_type, creature, monster_id):
+    monster = Monster.objects.get(id=monster_id)
+
+    # Ensure the user owns this monster
+    if monster.owner != request.user:
+        return redirect('monster_app:index')
+
+    prompt = f"A {monster.element_type} monster named {monster.creature} embarks on an adventure. {monster.description}. "
+
+    story = openai.ChatCompletion.create(
+      model="gpt-3.5-turbo",
+      messages=[
+            {"role": "system", "content": "You are a highly intelligent AI and you will write a story."},
+            {"role": "user", "content": prompt},
+        ]
+    )
+    
+    new_story = Story.objects.create(monster=monster, content=story['choices'][0]['message']['content'])
+    new_story.save()
+
+    return render(request, 'explore/story.html', {'story': new_story})
