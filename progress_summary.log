@@ -1,0 +1,33 @@
+05/23/23
+
+User Registration and Login: We discussed how to implement user registration and login in Django using Django's built-in authentication system. This included creating a registration form, login form, and their respective views and URLs.
+
+Adding Templates: We covered where to place the templates for the login and registration forms. Django typically looks for templates in a directory named templates inside your app directory.
+
+Implementing Login Logic: We went over the login view logic in Django, which involves validating the POST data from the login form, authenticating the user with Django's authenticate function, and logging in the user using Django's login function.
+
+Monster Ownership: Instead of creating a UserProfile model that links users to monsters, you decided to have each Monster track its owner (a User). This simplifies the model structure and avoids the need to override Django's built-in User model.
+
+Creating a Navigation Menu: A navigation menu was added to the base template, which contains links to the home page ("/") and the user's profile page ("/accounts/profile/").
+
+Adding Functionality to Claim Monsters: We developed a way for users to claim monsters. This was achieved by creating a view that assigns the current user to a selected monster's user field when the "Claim" button is clicked. The user field was added to the Monster model to track monster ownership.
+
+Conditionally Rendering "Claim" Button: Finally, we updated the monster detail template to only show the "Claim" button when a monster has not already been claimed. This was done using Django's template language to conditionally render the "Claim" button.
+
+05/27/23
+
+Monster Health System: We began by discussing how to implement a health system for a game involving monsters, with the requirement that a monster's health replenishes over time, specifically over a 24-hour period, until it reaches its maximum health, using Django. A Django model was proposed for the monster, and code was provided to implement the gradual replenishment of health over time.
+
+Battle App: After that, we moved on to the battle system. You asked for the creation of a new view in the battle app that allows spending XP (experience points). We discussed how XP could be used to recover health, increase the attack, or increase defense. We provided Django views, URLs, and HTML code for this.
+
+Refactoring HTML pages: We refactored the attack page and the monster detail page in your game. We changed the drop-down menu on the attack page to display cards for each monster. We also optimized the monster cards to be displayed on a single modal. The modal was then replaced with a vertical line layout optimized for mobile viewing.
+
+Battle Result View: You asked for another view to provide the results of the battle. We provided a Django view and HTML code for this, displaying who won the battle and how much XP was gained.
+
+Spend XP Page Refactoring: We updated the spend XP page to allow choosing how much XP to spend on each stat. If the total XP limit is exceeded, no XP is spent, and a warning is displayed.
+
+Explore App: We discussed creating a new app for the game called 'explore', a story/quest mode that uses chatgpt to make an interactive story for the user's monster. We discussed the basics of storytelling, narrative archetypes, and various types of interactions.
+
+JSON for Story Interactions: We created a JSON file representing the setup, conflict, and resolution for the various interactions based on monster and element type.
+
+Python Script for Story Generation: Finally, we provided a Python script that randomly selects a story from the JSON file, fills in the placeholders using details from your Django models, and generates a story.

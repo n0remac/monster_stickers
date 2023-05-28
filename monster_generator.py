@@ -25,8 +25,10 @@ def make_monster():
     path = creature.image_path
     if os.path.exists(path):
         return make_monster()
-
-    generate_monster(path, creature, 1)
+    try:
+        generate_monster(path, creature, 1)
+    except:
+        return make_monster()
     qr_path = f"monster_project/monsterqrcodes/{creature.filename}"
     generate_qr_code(creature.url, qr_path)
     creature.qr_code_path = qr_path
