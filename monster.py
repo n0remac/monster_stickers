@@ -1,7 +1,7 @@
 import requests
 import json
 import random
-
+import os
 
 class Monster:
     creature_types = ['Mammals', 'Birds', 'Reptiles', 'Bugs', 'Fish']
@@ -90,7 +90,8 @@ class MonsterCard(Monster):
 
         # Get the UUID of the image
         image_uuid = response.json().get("id")
-        self.url = f'http://192.168.4.24:8000/{self.element_type}/{self.creature}/{image_uuid}'
+        host_ip = os.environ.get("HOST_IP")
+        self.url = f'http://{host_ip}:8000/{self.element_type}/{self.creature}/{image_uuid}'
         self.uuid = image_uuid
 
     def __dict__(self):
