@@ -4,3 +4,4 @@ pillow
 django
 djangorestframework
 tinydb
+django-environ
