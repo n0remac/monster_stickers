@@ -32,19 +32,11 @@
                 </form>
             {% endif %}
             {% if monster.owner %}
-                <form action="/{{ monster.element_type }}/{{ monster.creature }}/story/{{ monster.id }}">
-                    <button type="submit" class="btn btn-primary" id="adventure-button">Go on an Adventure</button>
-                </form>
+                <form action="{% url 'story_list_view' monster_id=monster.id %}">
+                    <button type="submit" class="btn btn-primary">Go on an Adventure</button>
+                </form>            
             {% endif %}
         </div>
-<script>
-    document.getElementById("adventure-button").addEventListener("click", function(event){
-        var button = event.target;
-        button.disabled = true;
-        button.innerHTML = "Adventuring, please wait";
-        button.className = "btn btn-secondary";
-    });
-</script>
 <style>
     .action-buttons {
         display: flex;

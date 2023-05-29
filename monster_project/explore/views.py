@@ -9,15 +9,21 @@ from monster_app.models import Monster
 
 
 @login_required
+def story_list_view(request, monster_id):
+    stories = Story.objects.filter(monster_id=monster_id).order_by('-created_at')
+    return render(request, 'explore/story_list.html', {'stories': stories})
+
+@login_required
 def generate_story(request, element_type, creature, monster_id):
     monster = Monster.objects.get(id=monster_id)
-    story = random_story(monster_id)
+    story, conflict_creature = random_story(monster_id)
 
     complete_story = story['setup'] + story['conflict'] + story['resolution']
     generated_story = run_prompt(complete_story)
     new_story = Story.objects.create(
         monster=monster,
-        content=generated_story['choices'][0]['message']['content']
+        content=generated_story['choices'][0]['message']['content'],
+        conflict_creature=conflict_creature
     )
 
     return render(request, 'explore/story.html', {'story': new_story})
@@ -64,5 +70,5 @@ def random_story(monster_id):
         'resolution': story_archetype['resolution'].format(creature=monster.creature, element_type=monster.element_type, conflict_creature=conflict_creature.creature)
     }
 
-    return story
+    return story, conflict_creature
 

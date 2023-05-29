@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Stories</h1>
+
+    <ul>
+        {% for story in stories %}
+            <li>
+                <a href="/{{ story.monster.element_type }}/{{ story.monster.creature }}/story/{{ story.monster.id }}">
+                    {{ story.created_at }} - {{ story.content|truncatechars:100 }}
+                </a>
+            </li>
+        {% empty %}
+            <li>No stories to show.</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
