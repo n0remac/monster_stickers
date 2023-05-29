@@ -1,17 +1,25 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1>Stories</h1>
-
+    <h1>Adventure Log</h1>
+    <p>Adventures take a long time to generate, 30 seconds to a minute. You will have to reload this page to see new stories.</p>
+    <form method="POST" action="{% url 'generate_story' monster_id=monster_id %}">
+        {% csrf_token %}
+        {% if stories.first.content != None %}
+            <button type="submit" class="btn btn-primary" id="generate-button" onclick="this.disabled = true; this.value = 'Generating...'; this.form.submit();">Generate Story</button>
+        {% else %}
+            <button type="button" class="btn btn-primary" id="generate-button" disabled>Adventure Generating...</button>
+        {% endif %}
+    </form>
     <ul>
         {% for story in stories %}
             <li>
-                <a href="/{{ story.monster.element_type }}/{{ story.monster.creature }}/story/{{ story.monster.id }}">
+                <a href="/story/{{ story.id }}/">
                     {{ story.created_at }} - {{ story.content|truncatechars:100 }}
                 </a>
             </li>
         {% empty %}
-            <li>No stories to show.</li>
+            <li>No adventures to show.</li>
         {% endfor %}
     </ul>
 {% endblock content %}

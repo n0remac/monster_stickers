@@ -2,31 +2,40 @@ import openai
 import random
 import json
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from .models import Story
 from monster_app.models import Monster
 
 
 @login_required
-def story_list_view(request, monster_id):
-    stories = Story.objects.filter(monster_id=monster_id).order_by('-created_at')
-    return render(request, 'explore/story_list.html', {'stories': stories})
+def story_detail_view(request, story_id):
+    story = get_object_or_404(Story, id=story_id)
+    return render(request, 'explore/story_detail.html', {'story': story})
 
 @login_required
-def generate_story(request, element_type, creature, monster_id):
-    monster = Monster.objects.get(id=monster_id)
-    story, conflict_creature = random_story(monster_id)
+def story_list_view(request, monster_id):
+    stories = Story.objects.filter(monster_id=monster_id).order_by('-created_at')
+    return render(request, 'explore/story_list.html', {'stories': stories, 'monster_id': monster_id})
 
+@login_required
+def generate_story(request, monster_id):
+    monster = Monster.objects.get(id=monster_id)
+    # create an empty story
+    story_obj = Story.objects.create(monster=monster)
+
+    story, conflict_creature = random_story(monster_id)
     complete_story = story['setup'] + story['conflict'] + story['resolution']
     generated_story = run_prompt(complete_story)
-    new_story = Story.objects.create(
-        monster=monster,
-        content=generated_story['choices'][0]['message']['content'],
-        conflict_creature=conflict_creature
-    )
+    content = generated_story['choices'][0]['message']['content']
+    # update story with content
+    story_obj.content = content
+    story_obj.conflict_creature = conflict_creature
+    story_obj.save()
 
-    return render(request, 'explore/story.html', {'story': new_story})
+    return HttpResponseRedirect(reverse('story_detail_view', args=(story_obj.id,)))
 
 def run_prompt(prompt):
     story = openai.ChatCompletion.create(
@@ -57,12 +66,8 @@ def random_story(monster_id):
     setting = monster.description
 
     unclaimed_monsters = Monster.objects.filter(owner=None)
-    random_monster = random.choice(unclaimed_monsters)
+    conflict_creature = random.choice(unclaimed_monsters)
 
-    conflict_creature = random_monster
-    print(conflict_creature.creature)
-
-    # Fill in the placeholders in the story archetype
     story = {
         'type': story_archetype['type'],
         'setup': story_archetype['setup'].format(creature=monster.creature, element_type=monster.element_type, setting=monster.element_type),
