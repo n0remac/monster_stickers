@@ -1,0 +1,7 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h2>{{ story.monster.creature }}'s Adventure</h2>
+    <p>{{ story.content }}</p>
+    <a href="{% url 'story_list_view' monster_id=story.monster.id %}">Back to stories</a>
+{% endblock content %}
