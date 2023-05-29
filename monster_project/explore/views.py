@@ -14,9 +14,7 @@ def generate_story(request, element_type, creature, monster_id):
     story = random_story(monster_id)
 
     complete_story = story['setup'] + story['conflict'] + story['resolution']
-    print("complete_story: ", complete_story)
     generated_story = run_prompt(complete_story)
-    print("generated_story: ", generated_story)
     new_story = Story.objects.create(
         monster=monster,
         content=generated_story['choices'][0]['message']['content']
@@ -25,7 +23,6 @@ def generate_story(request, element_type, creature, monster_id):
     return render(request, 'explore/story.html', {'story': new_story})
 
 def run_prompt(prompt):
-    print("Generating story with prompt: ", prompt)
     story = openai.ChatCompletion.create(
       model="gpt-3.5-turbo",
       messages=[
@@ -57,6 +54,7 @@ def random_story(monster_id):
     random_monster = random.choice(unclaimed_monsters)
 
     conflict_creature = random_monster
+    print(conflict_creature.creature)
 
     # Fill in the placeholders in the story archetype
     story = {
