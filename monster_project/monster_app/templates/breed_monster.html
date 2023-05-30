@@ -1,0 +1,56 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <div class="content">
+    <h1>Breed Monster</h1>
+    <h2>Selected Monster: {{ selected_monster.creature }}</h2>
+    <p>Select a monster to breed with:</p>
+        <div class="monster-cards">
+        {% for monster in owned_monsters %}
+            <div class="card">
+                <h3>{{ monster.creature }}</h3>
+                <img class="monster-image" src="{{ monster.image_url }}" alt="{{ monster.creature }}">
+                <p><strong>Type:</strong> {{ monster.element_type }}</p>
+                <p><strong>Attack:</strong> {{ monster.attack }}</p>
+                <p><strong>Health:</strong> {{ monster.health }}</p>
+                <form action="{% url 'perform_breed' monster1_id=selected_monster.id monster2_id=monster.id %}">
+                    <button type="submit" class="btn btn-primary">Select</button>
+                </form>
+            </div>
+        {% empty %}
+            <li>You have no other monsters to breed with.</li>
+        {% endfor %}
+    </div>
+    <style>
+        .monster-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        
+        .card {
+            margin: 20px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .monster-image {
+            width: 100%;
+            height: auto;
+        }
+        .container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: linear-gradient(to right, #f9f9f9, #e0e0e0);
+                min-height: 100vh;
+            }
+            
+            .content {
+                text-align: center;
+            }
+        
+            </style>
+{% endblock content %}

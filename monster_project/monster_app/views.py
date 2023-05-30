@@ -6,7 +6,32 @@ from rest_framework.response import Response
 from .serializers import MonsterSerializer
 from explore.models import Story
 import openai
+from django.http import HttpResponse
+from .monster_creation.monster_generator import monster_generator
 
+@login_required
+def perform_breed(request, monster1_id, monster2_id):
+    # Retrieve the monsters from the database
+    monster1 = get_object_or_404(Monster, id=monster1_id)
+    monster2 = get_object_or_404(Monster, id=monster2_id)
+
+    # Ensure the user owns these monsters
+    if monster1.owner != request.user or monster2.owner != request.user:
+        return HttpResponse("Error: You do not own these monsters.", status=403)
+
+    monster_ids = monster_generator(parent1=monster1, parent2=monster2)
+    for monster_id in monster_ids:
+        monster = get_object_or_404(Monster, id=monster_id)
+        monster.owner = request.user
+        monster.save()
+
+    return HttpResponse("Breeding performed. This is just a stub for now, no actual breeding has been done.")
+
+
+@login_required
+def breed_monster(request, monster_id):
+    owned_monsters = Monster.objects.filter(owner=request.user).exclude(id=monster_id)
+    return render(request, 'breed_monster.html', {'owned_monsters': owned_monsters, 'selected_monster': Monster.objects.get(id=monster_id)})
 
 @api_view(['POST'])
 def create_monster(request):

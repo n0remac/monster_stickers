@@ -36,6 +36,11 @@
                     <button type="submit" class="btn btn-primary">Adventure</button>
                 </form>            
             {% endif %}
+            {% if monster.owner %}
+                <form action="{% url 'breed_monster' monster_id=monster.id %}">
+                    <button type="submit" class="btn btn-primary">Breed</button>
+                </form>
+            {% endif %}
         </div>
 <style>
     .action-buttons {
