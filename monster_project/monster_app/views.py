@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
+from background_task import background
 from .models import Monster
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -8,25 +9,30 @@ from explore.models import Story
 import openai
 from django.http import HttpResponse
 from .monster_creation.monster_generator import monster_generator
+from django.contrib.auth.models import User
+import uuid
+
 
 @login_required
 def perform_breed(request, monster1_id, monster2_id):
+    print("Performing breed...")
+    generate_monster(request.user.id, str(monster1_id), str(monster2_id))
+    return render(request, 'breed_complete.html', {})
+
+@background(schedule=1)
+def generate_monster(user_id, monster1_id, monster2_id):
+    monster1_id = uuid.UUID(monster1_id)
+    monster2_id = uuid.UUID(monster2_id)
     # Retrieve the monsters from the database
     monster1 = get_object_or_404(Monster, id=monster1_id)
     monster2 = get_object_or_404(Monster, id=monster2_id)
-
-    # Ensure the user owns these monsters
-    if monster1.owner != request.user or monster2.owner != request.user:
-        return HttpResponse("Error: You do not own these monsters.", status=403)
-
+    
+    user = get_object_or_404(User, id=user_id)
     monster_ids = monster_generator(parent1=monster1, parent2=monster2)
     for monster_id in monster_ids:
         monster = get_object_or_404(Monster, id=monster_id)
-        monster.owner = request.user
+        monster.owner = user
         monster.save()
-
-    return HttpResponse("Breeding performed. This is just a stub for now, no actual breeding has been done.")
-
 
 @login_required
 def breed_monster(request, monster_id):
