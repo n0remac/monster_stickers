@@ -5,3 +5,4 @@ django
 djangorestframework
 tinydb
 django-environ
+django4-background-tasks

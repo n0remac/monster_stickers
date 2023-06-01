@@ -5,7 +5,7 @@ from .fileio import download_image
 from .monster import MonsterCard
 
 
-def monster_generator(parent1=None, parent2=None, amount: int = 1, path: str='/Users/cameron/Projects/StickerMonsters/monster_project/'):
+def monster_generator(parent1=None, parent2=None, amount: int = 1, path: str='/home/cameron/Projects/StickerMonsters/monster_project/'):
     '''Generates monsters and saves it to tinyDB and posts to Django app.'''
     monster_db = TinyDB('monster_db.json')
 
@@ -42,8 +42,9 @@ def make_monster(monster_name, monster_element, path: str, num=''):
         creature.filename = f'{creature.filename}'.replace('.png', f'{num}.png')
         creature.image_path = image_path
         generate_monster(image_path, creature, 1)
-    except:
+    except Exception as e:
         print("Error generating monster, trying again.")
+        print(e)
         return make_monster(monster_name, monster_element, path)
     
     creature.post_monster()
