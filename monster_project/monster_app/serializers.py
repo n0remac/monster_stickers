@@ -13,4 +13,5 @@ class MonsterSerializer(serializers.ModelSerializer):
                   'conscious',
                   'max_health',
                   'max_attack',
-                  'max_xp']
+                  'max_xp',
+                  'filename']

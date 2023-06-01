@@ -34,6 +34,9 @@ class Monster(GameEntity):
     creature = models.CharField(max_length=200, default='')
     description = models.TextField(default='')
     owner = models.ForeignKey('auth.User', related_name='monsters', on_delete=models.CASCADE, null=True, blank=True)
+    filename = models.CharField(max_length=200, default='', null=True, blank=True)
 
     def image_url(self):
-        return f"/static/monsterimages/{self.element_type}-{self.creature}.png"
+        if self.filename == '':
+            return f"/static/monsterimages/{self.element_type}-{self.creature}.png"
+        return f"/static/monsterimages/{self.filename}"
