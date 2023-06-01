@@ -24,7 +24,6 @@ def monster_generator(parent1=None, parent2=None, amount: int = 1, path: str='/U
 
     monster_ids = []
     for monster in monsters:
-        print(monster)
         monster_ids.append(monster['uuid'])
     return monster_ids
 
@@ -62,7 +61,6 @@ def generate_monster(path, creature, amount):
     n=amount,
     size="512x512"
     )
-    print(path)
     for image in response['data']:
         url = image['url']
         download_image(url, path)

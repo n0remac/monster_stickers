@@ -36,9 +36,6 @@ def stitch(direction, path, grouping_number, output,reversed=False):
     filter_complex = f'{filter_inputs}{direction}stack=inputs={grouping_number}'
     combine_script = f'ffmpeg {image_input}-filter_complex "{filter_complex}" {output}'
 
-    print('------------------------')
-    print(combine_script)
-    print('------------------------')
     return combine_script
 
 
