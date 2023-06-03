@@ -92,7 +92,7 @@ def create_image_grid(rows, columns, images):
 def get_monster_list():
     monster_db = TinyDB('monster_db.json')
     monsters = Query()
-    monster_list = monster_db.search(monsters.print_status == False)
+    monster_list = monster_db.search(monsters.print_status == False, monsters.owner == None)
     return monster_list
 
 def set_monster_printed(monster_uuid):
