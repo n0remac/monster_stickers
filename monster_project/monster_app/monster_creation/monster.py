@@ -26,6 +26,7 @@ class Monster:
         return self.creature_types[random.randint(0,len(self.creature_types)-1)]
 
     def random_creature(self, path='monster_app/monster_creation/'):
+        print(os.system('pwd'))
         with open(f'{path}animals.json', 'r') as f:
             animal_dict = json.load(f)
         return animal_dict[self.creature_type][random.randint(0,len(animal_dict[self.creature_type])-1)]

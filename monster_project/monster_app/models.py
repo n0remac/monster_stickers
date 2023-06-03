@@ -38,5 +38,5 @@ class Monster(GameEntity):
 
     def image_url(self):
         if self.filename == '':
-            return f"{self.element_type}-{self.creature}.png"
-        return f"{self.filename}"
+            return f"/static/monsterimages/{self.element_type}-{self.creature}.png"
+        return f"/static/monsterimages/{self.filename}"
