@@ -18,7 +18,7 @@ def story_detail_view(request, story_id):
 @login_required
 def story_list_view(request, monster_id):
     stories = Story.objects.filter(monster_id=monster_id).order_by('-created_at')
-    return render(request, 'explore/story_list.html', {'stories': stories, 'monster_id': monster_id})
+    return render(request, 'explore/story_list.html', {'stories': stories, 'monster_id': monster_id, 'num_stories': len(stories)})
 
 @login_required
 def generate_story(request, monster_id):

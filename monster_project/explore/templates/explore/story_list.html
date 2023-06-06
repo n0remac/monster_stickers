@@ -5,10 +5,17 @@
     <p>Adventures take a long time to generate, 30 seconds to a minute. You will have to reload this page to see new stories.</p>
     <form method="POST" action="{% url 'generate_story' monster_id=monster_id %}">
         {% csrf_token %}
-        {% if stories.first.content != None %}
+
+        
+        
+        {% if stories.first.content != None and stories|length %}
+            <button type="submit" class="btn btn-primary" id="generate-button" onclick="this.disabled = true; this.value = 'Generating...'; this.form.submit();">Generate Story</button>
+        {% else %}
+        {% if num_stories == 0 %}
             <button type="submit" class="btn btn-primary" id="generate-button" onclick="this.disabled = true; this.value = 'Generating...'; this.form.submit();">Generate Story</button>
         {% else %}
             <button type="button" class="btn btn-primary" id="generate-button" disabled>Adventure Generating...</button>
+        {% endif %}
         {% endif %}
     </form>
     <ul>
