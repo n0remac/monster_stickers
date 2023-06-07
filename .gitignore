@@ -11,3 +11,6 @@ generatedimage/
 .DS_Store
 .env
 venv/
+
+frontend/node_modules/
+*/node_modules/*
