@@ -47,6 +47,12 @@ def create_monster(request):
         return Response({'id': monster.id}, status=201)
     return Response(serializer.errors, status=400)
 
+@api_view(['GET'])
+def get_monsters(request):
+    monsters = Monster.objects.all()
+    serializer = MonsterSerializer(monsters, many=True)
+    return Response(serializer.data)
+
 def monster_list(request):
     monsters = Monster.objects.all()
     return render(request, 'monster_list.html', {'monsters': monsters})

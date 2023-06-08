@@ -1,10 +1,19 @@
-// redux/store.js
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from "@reduxjs/toolkit";
+import counterReducer from "./features/counterSlice";
+import { monsterApi } from "./services/monsterApi";
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
 export const store = configureStore({
   reducer: {
-    // your reducers will go here
+    counterReducer,
+    [monsterApi.reducerPath]: monsterApi.reducer,
   },
-})
+  devTools: process.env.NODE_ENV !== "production",
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({}).concat([monsterApi.middleware]),
+});
 
-export default store;
+setupListeners(store.dispatch);
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

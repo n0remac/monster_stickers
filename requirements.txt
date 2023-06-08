@@ -6,3 +6,4 @@ djangorestframework
 tinydb
 django-environ
 django4-background-tasks
+django-cors-headers
