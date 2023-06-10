@@ -53,6 +53,12 @@ def get_monsters(request):
     serializer = MonsterSerializer(monsters, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def get_monster(request, id):
+    monster = get_object_or_404(Monster, id=id)
+    serializer = MonsterSerializer(monster)
+    return Response(serializer.data)
+
 def monster_list(request):
     monsters = Monster.objects.all()
     return render(request, 'monster_list.html', {'monsters': monsters})

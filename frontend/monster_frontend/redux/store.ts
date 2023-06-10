@@ -8,7 +8,7 @@ export const store = configureStore({
     counterReducer,
     [monsterApi.reducerPath]: monsterApi.reducer,
   },
-  devTools: process.env.NODE_ENV !== "production",
+  // devTools: process.env.NODE_ENV !== "production",
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({}).concat([monsterApi.middleware]),
 });

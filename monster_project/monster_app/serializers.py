@@ -14,4 +14,5 @@ class MonsterSerializer(serializers.ModelSerializer):
                   'max_health',
                   'max_attack',
                   'max_xp',
-                  'filename']
+                  'filename',
+                  'image_url',]

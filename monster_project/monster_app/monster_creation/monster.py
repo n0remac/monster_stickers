@@ -18,9 +18,21 @@ class Monster:
         self.creature = self.random_creature().replace(' ', '-').replace("'", '') if monster_name is None else monster_name
         self.element_type = self.random_element().replace(' ', '-').replace("'", '') if monster_element is None else monster_element
         self.description = self.random_description()
+        self.emotion = self.random_emotion()
+        self.action = self.random_action()
         self.health = random.randint(*self.stats_range[self.creature_type]['health'])
         self.attack = random.randint(*self.stats_range[self.creature_type]['attack'])
         self.xp = random.randint(*self.stats_range[self.creature_type]['xp'])
+
+    def random_action(self, path='monster_app/monster_creation/'):
+        with open(f'{path}actions.json', 'r') as f:
+            actions = json.load(f)
+            return actions[random.randint(0,len(actions)-1)]['action']
+
+    def random_emotion(self, path='monster_app/monster_creation/'):
+        with open(f'{path}emotions.json', 'r') as f:
+            emotions = json.load(f)
+            return emotions[random.randint(0,len(emotions)-1)]['emotion']
 
     def random_creature_type(self):
         return self.creature_types[random.randint(0,len(self.creature_types)-1)]
@@ -46,7 +58,8 @@ class Monster:
 class MonsterCard(Monster):
     def __init__(self, monster_name, monster_element, image_path:str):
         super().__init__(monster_name, monster_element)
-        self.prompt = f"An original grimdark creature illustration of a {self.element_type} themed {self.creature} creature. There is a detailed landscape in the background themed as: {self.description}"
+        self.prompt = f"An original Caravaggio creature illustration of a {self.element_type} themed {self.creature} creature. It is feeling {self.emotion} while {self.action}. There is a detailed landscape in the background themed as: {self.description}"
+        print(self.prompt)
         self.uuid = ''
         self.url = ''
         self.filename = f"{self.element_type}-{self.creature}.png"
