@@ -18,6 +18,12 @@ type Monster = {
 //   last_battle: string;
 };
 
+type Adventure = {
+  id: number;
+  monster: Monster;
+  content: string;
+}
+
 export const monsterApi = createApi({
   reducerPath: "MonsterApi",
   refetchOnFocus: true,
@@ -31,7 +37,10 @@ export const monsterApi = createApi({
     getMonsterById: builder.query<Monster, { id: string }>({
       query: ({ id }) => `monsters/${id}`,
     }),
+    getAdventure: builder.query<Adventure, { id: string }>({
+      query: ({ id }) =>  `monsters/${id}/adventures/`,
+    }),
   }),
 });
 
-export const { useGetMonstersQuery, useGetMonsterByIdQuery } = monsterApi;
+export const { useGetMonstersQuery, useGetMonsterByIdQuery, useGetAdventureQuery } = monsterApi;

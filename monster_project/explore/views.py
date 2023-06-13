@@ -5,10 +5,27 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from django.urls import reverse
 from .models import Story
 from monster_app.models import Monster
+from .serializer import StorySerializer
+from .adventure_generator import get_location
 
+
+@api_view(['GET'])
+def get_adventure(request, monster_id):
+    monster = Monster.objects.get(id=monster_id)
+    # create an empty story
+    story_obj = Story.objects.create(monster=monster)
+
+    story = run_prompt(get_location())
+    story_obj.content = story.get('choices')[0].get('message').get('content')
+    
+    serializer = StorySerializer(story_obj)
+
+    return Response(serializer.data)
 
 @login_required
 def story_detail_view(request, story_id):
