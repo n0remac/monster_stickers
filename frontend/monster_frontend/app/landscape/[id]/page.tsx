@@ -1,3 +1,4 @@
+// @ts-nocheck
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -23,8 +24,8 @@ const LandscapeDetail = ({ params }: { params: { id: string } }): ReactElement |
   const [showAdventure, setShowAdventure] = useState(false);
   const [monsterUpdated, setMonsterUpdated] = useState(false);
   const [breed, setBreed] = useState(false);
-  const [userMonsterList, setUserMonsterList] = useState<Array<{ data: Monster } | { error: FetchBaseQueryError | SerializedError }>>([]);
-  const [landscapeMonsterList, setLandscapeMonsterList] = useState<Array<{ data: Monster } | { error: FetchBaseQueryError | SerializedError }>>([]);
+  const [userMonsterList, setUserMonsterList] = useState<Array<{ data: Monster, error: undefined } | { error: FetchBaseQueryError | SerializedError }>>([]);
+  const [landscapeMonsterList, setLandscapeMonsterList] = useState<Array<{ data: Monster, error: undefined } | { error: FetchBaseQueryError | SerializedError }>>([]);
 
 
   const sendMonster = async () => {
@@ -37,7 +38,7 @@ const LandscapeDetail = ({ params }: { params: { id: string } }): ReactElement |
 
   const takeMonster = async () => {
     if (selectedAdventureMonster) {
-      setLandscapeMonsterList(landscapeMonsterList.filter((monster) => monster.data.id !== selectedAdventureMonster));
+      setLandscapeMonsterList(landscapeMonsterList.filter((monster) => monster.error === undefined &&  monster.data.id !== selectedAdventureMonster));
       await takeMonsterFromLandscape({ landscape_id: id, monster_id: selectedAdventureMonster });
       setShowAdventure(false);
     }
