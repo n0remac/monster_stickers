@@ -4,7 +4,7 @@ from tinydb import TinyDB, Query
 from utils.fileio import download_image
 from .location import LandscapeCard
 
-def location_generator(amount: int = 1, path: str='/home/cameron/Projects/StickerMonsters/location_project/'):
+def location_generator(amount: int = 1, path: str='/home/cameron/Projects/StickerMonsters/monster_project/'):
     '''Generates locations and saves it to tinyDB and posts to Django app.'''
     location_db = TinyDB('location_db.json')
 

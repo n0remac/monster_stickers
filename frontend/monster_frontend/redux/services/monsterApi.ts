@@ -50,7 +50,7 @@ export const monsterApi = createApi({
   reducerPath: "MonsterApi",
   refetchOnFocus: true,
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://192.168.4.24:8000/",
+    baseUrl: "http://165.232.147.189:8000/",
   }),
   endpoints: (builder) => ({
     getMonsters: builder.query<Monster[], null>({

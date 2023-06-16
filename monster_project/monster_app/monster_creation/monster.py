@@ -58,7 +58,11 @@ class Monster:
 class MonsterCard(Monster):
     def __init__(self, monster_name, monster_element, image_path:str):
         super().__init__(monster_name, monster_element)
-        self.prompt = f"An original Caravaggio creature illustration of a {self.element_type} themed {self.creature} creature. It is feeling {self.emotion} while {self.action}. There is a detailed landscape in the background themed as: {self.description}"
+        insert = ''
+        random_int = random.randint(0,10)
+        if random_int == 1:
+            insert = f'It is feeling {self.emotion} while {self.action}.'
+        self.prompt = f"An original Caravaggio creature illustration of a {self.element_type} themed {self.creature} creature. {insert} There is a detailed landscape in the background themed as: {self.description}"
         print(self.prompt)
         self.uuid = ''
         self.url = ''
@@ -106,7 +110,7 @@ class MonsterCard(Monster):
         # Get the UUID of the image
         image_uuid = response.json().get("id")
         host_ip = os.environ.get("HOST_IP")
-        self.url = f'http://{host_ip}:8000/{self.element_type}/{self.creature}/{image_uuid}'
+        self.url = f'http://{host_ip}:3000/monsters/{image_uuid}'
         self.uuid = image_uuid
 
     def __dict__(self):

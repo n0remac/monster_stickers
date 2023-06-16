@@ -28,8 +28,8 @@ def create_sheet(entity_type):
     qr_path = f'{sheet_path}qr/'
     generate_qr_sheet(qr_path, entity_db_name)
 
-# monster_generator(1, path='/Users/cameron/Projects/StickerMonsters/monster_project/')
+monster_generator(amount = 2)
 # create_sheet('monster')
 
-location_generator(1, path='/Users/cameron/Projects/StickerMonsters/monster_project/')
+# location_generator(1)
 # create_sheet('location')

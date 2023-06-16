@@ -47,7 +47,7 @@ def breed(request):
     user_ip = get_client_ip(request)
     monster1 = get_object_or_404(Monster, id=request.data['monster1_id'])
     monster2 = get_object_or_404(Monster, id=request.data['monster2_id'])
-    monster_ids = monster_generator(parent1=monster1, parent2=monster2, path='/Users/cameron/Projects/StickerMonsters/monster_project/')
+    monster_ids = monster_generator(parent1=monster1, parent2=monster2)
     user = UnregisteredUser.objects.get(ip=user_ip)
     print(monster_ids)
     for monster_id in monster_ids:

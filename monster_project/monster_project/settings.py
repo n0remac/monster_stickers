@@ -32,7 +32,7 @@ DEBUG = env('DEBUG') != '0'
 
 HOST_IP = env('HOST_IP')
 
-ALLOWED_HOSTS = [HOST_IP, '127.0.0.1']
+ALLOWED_HOSTS = [HOST_IP, '127.0.0.1', '165.232.147.189']
 
 # Application definition
 
