@@ -12,7 +12,5 @@ generatedimage/
 .env
 venv/
 
-main.py
-
 frontend/node_modules/
 */node_modules/*

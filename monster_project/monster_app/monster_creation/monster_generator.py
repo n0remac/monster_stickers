@@ -1,7 +1,7 @@
 import openai
 import os
 from tinydb import TinyDB, Query
-from .fileio import download_image
+from utils.fileio import download_image
 from .monster import MonsterCard
 
 

@@ -4,7 +4,8 @@ from .models import Monster
 class MonsterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Monster
-        fields = ['element_type',
+        fields = ['id',
+                  'element_type',
                   'creature', 
                   'description',
                   'attack',

@@ -41,6 +41,26 @@ def make_map(filename='test_map.txt'):
         row += 1
     return game_map
 
+def move(game_map: dict, direction: str, current_location: tuple):
+    '''Moves the player in the given direction if possible.'''
+    if direction in ['N', 'S', 'E', 'W']:
+        if direction == 'N':
+            new_location = (current_location[0]-1, current_location[1])
+        elif direction == 'S':
+            new_location = (current_location[0]+1, current_location[1])
+        elif direction == 'E':
+            new_location = (current_location[0], current_location[1]+1)
+        elif direction == 'W':
+            new_location = (current_location[0], current_location[1]-1)
+
+        if new_location in game_map[current_location]['connections'].values():
+            current_location = new_location
+        else:
+            print('You can\'t go that way!')
+    else:
+        print('Invalid input!')
+    return current_location
+
 def walk_map(game_map, start=(2,6)):
     '''The main game loop. Each turn the player gives an input and can move to a new space. They can move N, S, E, W, or Q to quit.'''
     current_location = start
@@ -88,6 +108,6 @@ def location_prompt(location: dict, game_map: dict):
     return prompt
 
 
-def get_location():
+def get_location(x, y):
     game_map = make_map()
-    return location_prompt(game_map[(2,6)], game_map)
+    return location_prompt(game_map[(x,y)], game_map)

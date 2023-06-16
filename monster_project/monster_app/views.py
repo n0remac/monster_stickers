@@ -11,6 +11,9 @@ from django.http import HttpResponse
 from .monster_creation.monster_generator import monster_generator
 from django.contrib.auth.models import User
 import uuid
+from users.models import UnregisteredUser
+from users.serializer import UnregisteredUserSerializer
+from utils.utils import get_client_ip
 
 
 @login_required
@@ -40,6 +43,21 @@ def breed_monster(request, monster_id):
     return render(request, 'breed_monster.html', {'owned_monsters': owned_monsters, 'selected_monster': Monster.objects.get(id=monster_id)})
 
 @api_view(['POST'])
+def breed(request):
+    user_ip = get_client_ip(request)
+    monster1 = get_object_or_404(Monster, id=request.data['monster1_id'])
+    monster2 = get_object_or_404(Monster, id=request.data['monster2_id'])
+    monster_ids = monster_generator(parent1=monster1, parent2=monster2, path='/Users/cameron/Projects/StickerMonsters/monster_project/')
+    user = UnregisteredUser.objects.get(ip=user_ip)
+    print(monster_ids)
+    for monster_id in monster_ids:
+        monster = get_object_or_404(Monster, id=monster_id)
+        monster.set_ip(user_ip)
+        user.monsters.add(monster)
+        monster.save()
+    return Response({'monster_ids': monster_ids}, status=200)
+
+@api_view(['POST'])
 def create_monster(request):
     serializer = MonsterSerializer(data=request.data)
     if serializer.is_valid():
@@ -47,16 +65,54 @@ def create_monster(request):
         return Response({'id': monster.id}, status=201)
     return Response(serializer.errors, status=400)
 
+@api_view(['POST'])
+def get_monster_by_id(request):
+    monster = Monster.objects.get(id=request.data['id'])
+    serializer = MonsterSerializer(monster)
+    return Response(serializer.data)
+
 @api_view(['GET'])
 def get_monsters(request):
     monsters = Monster.objects.all()
     serializer = MonsterSerializer(monsters, many=True)
     return Response(serializer.data)
 
+def check_registered_users(user_ip):
+    unregistered_user = UnregisteredUser.objects.filter(ip=user_ip)
+    if len(unregistered_user) == 0:
+        UnregisteredUser.objects.create(ip=user_ip)
+    return UnregisteredUser.objects.get(ip=user_ip)
+
 @api_view(['GET'])
 def get_monster(request, id):
+    user_ip = get_client_ip(request)
+    unregistered_user = check_registered_users(user_ip)
+
     monster = get_object_or_404(Monster, id=id)
+    monster.set_ip(user_ip)
+    unregistered_user.monsters.add(monster)
+    unregistered_user.save()
+
     serializer = MonsterSerializer(monster)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def release_monster(request, id):
+    monster = get_object_or_404(Monster, id=id)
+    monster.owner = None
+    user_id = get_client_ip(request)
+    unregistered_user = get_object_or_404(UnregisteredUser, id=user_id)
+    unregistered_user.monsters.remove(monster)
+    unregistered_user.save()
+    monster.save()
+    return Response({'id': id}, status=200)
+
+@api_view(['GET'])
+def user_monsters(request):
+    user_ip = get_client_ip(request)
+    check_registered_users(user_ip)
+    unregistered_user = get_object_or_404(UnregisteredUser, ip=user_ip)
+    serializer = UnregisteredUserSerializer(unregistered_user)
     return Response(serializer.data)
 
 def monster_list(request):

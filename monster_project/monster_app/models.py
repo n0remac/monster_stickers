@@ -1,6 +1,7 @@
 from django.db import models
 import uuid
 from datetime import datetime, timezone
+import json
 
 class GameEntity(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -12,6 +13,8 @@ class GameEntity(models.Model):
     max_xp = models.IntegerField(default=0)
     conscious = models.BooleanField(default=True)
     last_battle = models.DateTimeField(null=True, blank=True)
+    location_x = models.IntegerField(default=0)
+    location_y = models.IntegerField(default=0)
 
     def current_health(self):
         if not self.conscious:  # The monster was unconscious
@@ -35,6 +38,17 @@ class Monster(GameEntity):
     description = models.TextField(default='')
     owner = models.ForeignKey('auth.User', related_name='monsters', on_delete=models.CASCADE, null=True, blank=True)
     filename = models.CharField(max_length=200, default='', null=True, blank=True)
+    ip_list = models.TextField(default='[]')
+
+    def set_ip(self, ip):
+        ip_list = self.get_ip_list()
+        if ip not in ip_list:
+            ip_list.append(ip)
+            self.ip_list = json.dumps(ip_list)
+            self.save()
+    
+    def get_ip_list(self):
+        return json.loads(self.ip_list)
 
     def image_url(self):
         if self.filename == '':

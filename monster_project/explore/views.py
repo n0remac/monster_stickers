@@ -8,24 +8,59 @@ from django.http import HttpResponseRedirect
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.urls import reverse
-from .models import Story
+from .models import Story, Adventure
 from monster_app.models import Monster
-from .serializer import StorySerializer
+from .serializer import AdventureSerializer
 from .adventure_generator import get_location
+
+
 
 
 @api_view(['GET'])
 def get_adventure(request, monster_id):
     monster = Monster.objects.get(id=monster_id)
-    # create an empty story
-    story_obj = Story.objects.create(monster=monster)
 
-    story = run_prompt(get_location())
-    story_obj.content = story.get('choices')[0].get('message').get('content')
+    if Adventure.objects.filter(monster=monster).exists():
+        adventure_obj = Adventure.objects.filter(monster=monster).latest('created_at')
+    else:
+        adventure_obj = Adventure.objects.create(monster=monster)
     
-    serializer = StorySerializer(story_obj)
+    location_x = adventure_obj.location_x
+    location_y = adventure_obj.location_y
+
+    adventure = run_prompt(get_location(location_x, location_y))
+    adventure_obj.content = adventure.get('choices')[0].get('message').get('content')
+    
+    serializer = AdventureSerializer(adventure_obj)
 
     return Response(serializer.data)
+
+@api_view(['POST'])
+def move(request):
+    monster_id = request.data.get('data').get('monster_id')
+    direction = request.data.get('data').get('direction')
+    monster = Monster.objects.get(id=monster_id)
+
+    adventure_obj = Adventure.objects.filter(monster=monster).latest('created_at')
+    location_x = adventure_obj.location_x
+    location_y = adventure_obj.location_y
+
+    if direction == 'N':
+        location_y += 1
+    elif direction == 'S':
+        location_y -= 1
+    elif direction == 'E':
+        location_x += 1
+    elif direction == 'W':
+        location_x -= 1
+
+    adventure_obj.location_x = location_x
+    adventure_obj.location_y = location_y
+
+    adventure_obj.save()
+
+    return Response({'message': 'success'})
+
 
 @login_required
 def story_detail_view(request, story_id):

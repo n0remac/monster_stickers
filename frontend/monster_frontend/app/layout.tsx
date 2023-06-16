@@ -1,6 +1,31 @@
 // import "./globals.css";
 import { Providers } from "@/redux/provider";
 import './globals.css'
+import { ReactElement } from "react";
+import Link from "next/link";
+
+const NavBar = (): ReactElement => {
+
+  return (
+    <nav className="flex items-center justify-between flex-wrap bg-blue-500 p-6">
+      <Link href="/">
+        <div className="flex items-center flex-shrink-0 text-white mr-6 cursor-pointer">
+          <span className="font-semibold text-xl tracking-tight">Monster Adventure</span>
+        </div>
+      </Link>
+      <Link href="/adventures">
+        <div className="flex items-center flex-shrink-0 text-white mr-6 cursor-pointer">
+          <span className="font-semibold text-xl tracking-tight">Adventures</span>
+        </div>
+      </Link>
+      <Link href="/monsters">
+        <div className="flex items-center flex-shrink-0 text-white mr-6 cursor-pointer">
+          <span className="font-semibold text-xl tracking-tight">Monsters</span>
+        </div>
+      </Link>
+    </nav>
+  );
+}
 
 export const metadata = {
   title: "Create Next App",
@@ -15,6 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+      <NavBar />
         <Providers>{children}</Providers>
       </body>
     </html>
