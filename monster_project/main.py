@@ -1,7 +1,7 @@
 import subprocess
 from monster_app.monster_creation.monster_generator import monster_generator
 from locations.location_creation.location_generator import location_generator
-from utils.sticker_generator import generate_sheet, generate_qr_sheet
+from utils.sticker_generator import generate_sheet, generate_qr_sheet, place_qr_under_image
 import os
 
 def run_command(command):
@@ -28,8 +28,10 @@ def create_sheet(entity_type):
     qr_path = f'{sheet_path}qr/'
     generate_qr_sheet(qr_path, entity_db_name)
 
-monster_generator(amount = 2)
-# create_sheet('monster')
+monster_generator(amount = 15)
+create_sheet('monster')
+
+# place_qr_under_image('location_db.json', '/Users/cameron/Desktop/monster_sheet.png')
 
 # location_generator(1)
 # create_sheet('location')

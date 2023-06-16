@@ -88,16 +88,46 @@ def create_image_grid(rows, columns, images):
             else:
                 image_grid[i].append(None)
     return image_grid
+
 def get_entity_list(entity_db_name, owner_status):
     entity_db = TinyDB(entity_db_name)
     entities = Query()
-    entity_list = entity_db.search((entities.print_status == False) & (entities.owner == owner_status))
+    if owner_status == None:
+        entity_list = entity_db.search(entities.print_status == False)
+    else:
+        entity_list = entity_db.search((entities.print_status == False) & (entities.owner == owner_status))
+    
     return entity_list
 
 def set_entity_printed(entity_uuid, entity_db_name):
     entity_db = TinyDB(entity_db_name)
     entities = Query()
     entity_db.update({'print_status': True}, entities.uuid == entity_uuid)
+
+def place_qr_under_image( location_db_name, out_path):
+    entity_list = get_entity_list(location_db_name, None)
+    print(entity_list)
+    
+    searching = True
+    i=0
+    qr_image = None
+    while searching:
+        print(i)
+        monster = entity_list[i]
+        qr = entity_list[i]
+
+        monster_image = Image.open(monster['image_path'])
+        try:
+            qr_image = Image.open(qr['qr_code_path'])
+        except:
+            print('try again')
+            i+=1
+        if qr_image:
+            searching = False
+        
+
+    monster_image.paste(qr_image, (0, monster_image.size[1] - qr_image.size[1]))
+    monster_image.save(out_path)
 
 def generate_qr_sheet(sheet_path, entity_db_name, owner_status=None):
     entity_list = get_entity_list(entity_db_name, owner_status)
