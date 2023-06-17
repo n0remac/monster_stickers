@@ -13,17 +13,7 @@ export default function Home() {
 
   return (
     <main style={{ maxWidth: 1200, marginInline: "auto", padding: 20 }}>
-      <div style={{ marginBottom: "4rem", textAlign: "center" }}>
-        <h4 style={{ marginBottom: 16 }}>{count}</h4>
-        <button onClick={() => dispatch(increment())}>increment</button>
-        <button
-          onClick={() => dispatch(decrement())}
-          style={{ marginInline: 16 }}
-        >
-          decrement
-        </button>
-        <button onClick={() => dispatch(reset())}>reset</button>
-      </div>
+      <div>This app is in very early development. Thank you for being an alpha tester. More information and features coming soon!</div>
 
       {error ? (
         <p>Oh no, there was an error</p>
@@ -37,6 +27,7 @@ export default function Home() {
             gap: 20,
           }}
         >
+          <h1>All Monsters</h1>
           {data.map((monster) => (
             <div
               key={monster.id}
