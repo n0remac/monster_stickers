@@ -1,7 +1,6 @@
 "use client";
 
 import { useGetMonstersQuery } from "@/redux/services/monsterApi";
-import { decrement, increment, reset } from "@/redux/features/counterSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Image from 'next/image';
 

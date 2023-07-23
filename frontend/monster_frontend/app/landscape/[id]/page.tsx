@@ -141,7 +141,7 @@ const LandscapeDetail = ({ params }: { params: { id: string } }): ReactElement |
                       <button className="p-1 m-1 rounded text-white bg-blue-500" onClick={breedMonster} disabled={isAddingMonster}>select</button>
                     </div>
                   </div>
-                }  
+                } 
               </div>
             ))}
         </div>

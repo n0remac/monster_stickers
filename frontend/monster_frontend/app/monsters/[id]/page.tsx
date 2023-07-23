@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useGetMonsterByIdQuery, useGetAdventureQuery, usePostMovementMutation } from '@/redux/services/monsterApi';
+import { useGetMonsterByIdQuery, useGetAdventureQuery, usePostMovementMutation, useBreedMonstersMutation } from '@/redux/services/monsterApi';
 import Image from 'next/image';
 import { ReactElement } from 'react';
 
