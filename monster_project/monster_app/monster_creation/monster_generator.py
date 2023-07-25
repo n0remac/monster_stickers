@@ -5,7 +5,7 @@ from utils.fileio import download_image
 from .monster import MonsterCard
 
 
-def monster_generator(parent1=None, parent2=None, amount: int = 1, path: str='/home/cameron/Projects/StickerMonsters/monster_project/'):
+def monster_generator(parent1=None, parent2=None, amount: int = 1, path: str='/monster_project/'):
     '''Generates monsters and saves it to tinyDB and posts to Django app.'''
     monster_db = TinyDB('monster_db.json')
 

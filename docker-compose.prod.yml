@@ -5,8 +5,10 @@ services:
     image: nginx:latest
     ports:
       - '80:80'
+      - '443:443'
     volumes:
-      - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt:/etc/letsencrypt
 
   frontend:
     build: ./frontend/monster_frontend

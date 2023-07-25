@@ -32,7 +32,7 @@ export default function Home() {
               key={monster.id}
               style={{ border: "1px solid #ccc", textAlign: "center" }}
             >
-              <Image src={'http://127.0.0.1:8000'+monster.image_url} alt={monster.creature} width={300} height={300} />
+              <Image src={'https://backend:8000'+monster.image_url} alt={monster.creature} width={300} height={300} />
               <h2>{monster.element_type}</h2>
               <h3>{monster.creature}</h3>
               <p>{monster.description}</p>
