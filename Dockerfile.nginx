@@ -1,0 +1,12 @@
+FROM nginx:latest
+
+# Install dockerize
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
+COPY ./nginx/nginx.prod.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80 443
+CMD ["dockerize", "-wait", "tcp://frontend:3000", "-wait", "tcp://backend:8000", "-timeout", "5m", "nginx", "-g", "daemon off;"]
