@@ -151,3 +151,5 @@ CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:3000',
     'https://fabledfusion.com',
 ]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
