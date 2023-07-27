@@ -50,7 +50,7 @@ export const monsterApi = createApi({
   reducerPath: "MonsterApi",
   refetchOnFocus: true,
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://127.0.0.1:8000/", // TODO: Change to env variable
+    baseUrl: "https://fabledfusion.com/api/", // TODO: Change to env variable
   }),
   endpoints: (builder) => ({
     getMonsters: builder.query<Monster[], null>({
