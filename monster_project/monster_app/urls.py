@@ -7,7 +7,7 @@ urlpatterns = [
     path('api/create_monster/', views.create_monster, name='create_monster'),
     path('api/get_monster/', views.get_monster_by_id, name='get_monster_by_id'),
     path('api/breed_monsters/', views.breed, name='breed_monster'),
-    path('monsters/', views.get_monsters, name='get_monsters'),
+    path('api/monsters/', views.get_monsters, name='get_monsters'),
     path('monsters/<uuid:id>', views.get_monster, name='monster_detail'),
     path('<str:element_type>/<str:creature>/claim/<uuid:monster_id>/', views.claim_monster, name='claim_monster'),
     path('monster/', include('battle.urls')),
