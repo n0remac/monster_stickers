@@ -28,11 +28,13 @@ export default function Home() {
         >
           <h1>All Monsters</h1>
           {data.map((monster) => (
+            
             <div
               key={monster.id}
               style={{ border: "1px solid #ccc", textAlign: "center" }}
             >
-              <Image src={'http://fabledfusion:8000'+monster.image_url} alt={monster.creature} width={300} height={300} />
+              <Image src={'http://host.docker.internal:8000'+monster.image_url} alt={monster.creature} width={300} height={300} />
+              <h1>url: {monster.image_url}</h1>
               <h2>{monster.element_type}</h2>
               <h3>{monster.creature}</h3>
               <p>{monster.description}</p>

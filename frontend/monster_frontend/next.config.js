@@ -5,7 +5,7 @@ const nextConfig = {}
 
 module.exports = {
     images: {
-      domains: ['backend'],
+      domains: ['host.docker.internal'],
     },
   }
   
